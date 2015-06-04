@@ -10,21 +10,36 @@ module.exports = function(grunt){
     settings: {
       app: '.',
       cssPath: '<%= settings.app %>/content/css',
-      sassPath: '<%= settings.app %>/content/sass',
-      imagePath: '<%= settings.app %>/content/images',
+      bowerComponents: '<%= settings.app %>/bower_components',
+      contentPath : '<%= settings.app %>/content',
+      sassPath: '<%= settings.app %>/sass',
+      imagePath: '<%= settings.contentPath %>/images',
+      fontsPath: '<%= settings.contentPath %>/fonts',
       scriptPath: '<%= settings.app %>/scripts',
+      scriptsLibs: '<%= settings.scriptPath %>/libs',
       viewPath: '<%= settings.app %>/views',
+      bootstrapFonts: '<%= settings.bowerComponents %>/bootstrap-sass/assets/fonts',
+      contentScripts: '<%= settings.contentPath %>/js',
       livereload: 35729
     },
     
     requirejs: {
-      dev: {
+      prod: {
         options: {
-          baseUrl: "<%= settings.scriptPath %>",
-          mainConfigFile: "<%= settings.scriptPath %>/app.js",
-          name: "path/to/almond", // assumes a production build using almond
-          out: "<%= settings.scriptPath %>/script.js",
-          optimize: "uglify",
+          appDir: "scripts/",
+          baseUrl: ".",
+          dir: "content/js",
+          optimize: 'uglify',
+          mainConfigFile:'./scripts/main.js',
+          modules:[
+            {
+              name:'app/main'
+            }
+          ],
+          logLevel: 0,
+          findNestedDependencies: true,
+          fileExclusionRegExp: /^\./,
+          inlineText: true
         }
       }
     },
@@ -32,8 +47,8 @@ module.exports = function(grunt){
     sass: {
       dev: {
         options: {
-          imagePath: '<%= settings.imagePath %>',
-          sourceMap: true,
+          //imagePath: '<%= settings.imagePath %>',
+          sourceMap: false,
           debugInfo: true
         },
         files: {
@@ -61,7 +76,7 @@ module.exports = function(grunt){
           title: "Compilation Successful! ", // defaults to the name in package.json, or will use project directory's name
           message: 'Successfully compiled script.js'
         },
-      }
+      },
       sass: {
         options: {
           title: "Compilation Successful! ", // defaults to the name in package.json, or will use project directory's name
@@ -69,7 +84,25 @@ module.exports = function(grunt){
         },
       }
     },
-    
+    copy: {
+      bootstrapFonts : {
+        files : [
+          {expand: true, cwd:"bower_components/bootstrap-sass/assets/fonts", src: '**', dest: '<%= settings.fontsPath %>', filter: 'isFile'}
+        ]
+      },
+      scriptLibraries: {
+        files : [
+          {expand: true, cwd:"bower_components/bootstrap-sass/assets/javascripts/bootstrap", src: '**', dest: '<%= settings.scriptsLibs %>/bootstrap', filter:'isFile'},
+          {expand: true, cwd:"bower_components/requirejs", src: 'require.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
+          {expand: true, cwd:"bower_components/jquery/dist", src: 'jquery.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'}
+        ]
+      },
+      requirejsDev: {
+        files : [
+          {expand: true, cwd:"scripts/", src: '**', dest: '<%= settings.contentScripts %>'}
+        ]
+      }
+    },
     watch: {
       js: {
         files: [
@@ -79,7 +112,7 @@ module.exports = function(grunt){
           livereload: true
         },
         tasks: [
-          'js-compile'
+          'js-compile-dev'
         ]
       },
       scss: {
@@ -109,11 +142,13 @@ module.exports = function(grunt){
   grunt.registerTask('css-compile', [
     'sass:dev',
     'autoprefixer:dev',
-    'notify:sass'
+    'notify:sass',
+    'copy:bootstrapFonts'
   ]);
   
-  grunt.registerTask('js-compile', [
-    'requirejs:dev',
+  grunt.registerTask('js-compile-dev', [
+    //'requirejs:dev',
+    'copy:requirejsDev',
     'notify:requirejs'
   ]);
 
