@@ -11,12 +11,16 @@ require.config({
         'bootstrap/scrollspy':  { deps: ['jquery'], exports: '$.fn.scrollspy' },
         'bootstrap/tab':        { deps: ['jquery'], exports: '$.fn.tab'        },
         'bootstrap/tooltip':    { deps: ['jquery'], exports: '$.fn.tooltip' },
-        'bootstrap/transition': { deps: ['jquery'], exports: '$.fn.transition' }
+        'bootstrap/transition': { deps: ['jquery'], exports: '$.fn.transition' },
+        'angular' : {exports: 'angular'},
+        'angular-route' : { deps: ['angular'] }
     },
     paths: {
         /* path to folder where individual bootstrap files have been saved. (affix.js, alert.js, etc) */
         'bootstrap': './libs/bootstrap',
         'jquery': './libs/jquery.min',
+        'angular': './libs/angular.min',
+        'angular-route': './libs/angular-route.min',
         lib: './libs',
         app: './app'
     },

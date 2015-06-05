@@ -98,7 +98,9 @@ module.exports = function(grunt){
         files : [
           {expand: true, cwd:"bower_components/bootstrap-sass/assets/javascripts/bootstrap", src: '**', dest: '<%= settings.scriptsLibs %>/bootstrap', filter:'isFile'},
           {expand: true, cwd:"bower_components/requirejs", src: 'require.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
-          {expand: true, cwd:"bower_components/jquery/dist", src: 'jquery.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'}
+          {expand: true, cwd:"bower_components/jquery/dist", src: 'jquery.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
+          {expand: true, cwd:"bower_components/angular", src: 'angular.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
+          {expand: true, cwd:"bower_components/angular-route", src: 'angular-route.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'}
         ]
       },
       requirejsDev: {
@@ -151,11 +153,13 @@ module.exports = function(grunt){
   ]);
   
   grunt.registerTask('js-compile-dev', [
+    'copy:scriptLibraries',
     'copy:requirejsDev',
     'notify:requirejs'
   ]);
   
   grunt.registerTask('js-compile-prod', [
+    'copy:scriptLibraries',
     'requirejs:prod',
     'notify:requirejs'
   ]);
