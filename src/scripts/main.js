@@ -21,5 +21,5 @@ require.config({
         app: './app'
     },
 });
-requirejs(['app/main'], function(){
+requirejs(['app/main'], function(app){
 });

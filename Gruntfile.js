@@ -8,14 +8,18 @@ module.exports = function(grunt){
 
   grunt.initConfig({
     settings: {
+      /**
+       * Application base path.
+       */
       app: '.',
       cssPath: '<%= settings.app %>/content/css',
       bowerComponents: '<%= settings.app %>/bower_components',
       contentPath : '<%= settings.app %>/content',
-      sassPath: '<%= settings.app %>/sass',
+      sourcePath : '<%= settings.app %>/src',
+      scriptPath: '<%= settings.sourcePath %>/scripts',
+      sassPath: '<%= settings.sourcePath %>/sass',
       imagePath: '<%= settings.contentPath %>/images',
       fontsPath: '<%= settings.contentPath %>/fonts',
-      scriptPath: '<%= settings.app %>/scripts',
       scriptsLibs: '<%= settings.scriptPath %>/libs',
       viewPath: '<%= settings.app %>/views',
       bootstrapFonts: '<%= settings.bowerComponents %>/bootstrap-sass/assets/fonts',
@@ -26,11 +30,11 @@ module.exports = function(grunt){
     requirejs: {
       prod: {
         options: {
-          appDir: "scripts/",
+          appDir: "<%= settings.scriptPath %>/",
           baseUrl: ".",
-          dir: "content/js",
+          dir: "<%= settings.contentScripts %>",
           optimize: 'uglify',
-          mainConfigFile:'./scripts/main.js',
+          mainConfigFile:'<%= settings.scriptPath %>/main.js',
           modules:[
             {
               name:'app/main'
@@ -99,7 +103,7 @@ module.exports = function(grunt){
       },
       requirejsDev: {
         files : [
-          {expand: true, cwd:"scripts/", src: '**', dest: '<%= settings.contentScripts %>'}
+          {expand: true, cwd:"<%= settings.scriptPath %>/", src: '**', dest: '<%= settings.contentScripts %>'}
         ]
       }
     },
@@ -147,8 +151,12 @@ module.exports = function(grunt){
   ]);
   
   grunt.registerTask('js-compile-dev', [
-    //'requirejs:dev',
     'copy:requirejsDev',
+    'notify:requirejs'
+  ]);
+  
+  grunt.registerTask('js-compile-prod', [
+    'requirejs:prod',
     'notify:requirejs'
   ]);
 
