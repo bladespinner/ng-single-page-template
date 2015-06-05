@@ -1,4 +1,10 @@
-define(["jquery","lib/bootstrap"],function($){
-  console.log('nice');
-  return {}; 
+define([
+  "jquery",
+  "app/angularModules",
+  "lib/bootstrap"
+  ],function($,angularModules){
+    
+    angularModules.bootstrap();
+    
+    return {}; 
 });
