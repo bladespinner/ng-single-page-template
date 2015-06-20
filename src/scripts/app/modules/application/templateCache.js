@@ -4,12 +4,12 @@ define([], function() {
   'use strict';
 
   $templateCache.put('content/views/home.html',
-    "<div style=\"background:red\">Home {{message}} <a href=\"#/test\">Go to Test</a></div>"
+    "Home {{message}} <a href=\"#/test\">Go to Test</a>"
   );
 
 
   $templateCache.put('content/views/test.html',
-    "<div style=\"width:50px;height:50px;background:blue\">Test {{value}} <a href=\"#/\">Go to Home</a></div>"
+    "Test {{value}} <a href=\"#/\">Go to Home</a>"
   );
   }];
 });

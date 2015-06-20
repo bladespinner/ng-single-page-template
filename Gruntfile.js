@@ -43,6 +43,11 @@ module.exports = function(grunt){
             }
           ],
           logLevel: 0,
+          wrapShim: true,
+          uglify: {
+              no_mangle: true
+          },
+          removeCombined: true,
           findNestedDependencies: true,
           fileExclusionRegExp: /^\./,
           inlineText: true
@@ -237,7 +242,6 @@ module.exports = function(grunt){
   ]);
   
   grunt.registerTask('js-compile-prod', [
-    'copy:scriptLibraries',
     'requirejs:prod',
     'notify:requirejs'
   ]);
