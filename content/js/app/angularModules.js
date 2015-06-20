@@ -5,9 +5,6 @@ define([
   var bootstrap = function() {
     angular.element(document).ready(function() {
       angular.bootstrap(document, [application.name]);
-      setTimeout(function () {
-        alert('test');
-      },5000);
     });
   };
   return {bootstrap:bootstrap};
