@@ -4,7 +4,7 @@ define([], function() {
   'use strict';
 
   $templateCache.put('content/views/home.html',
-    "Home {{message}} <a class=\"btn btn-default\" href=\"#/test\">Go to Test</a>"
+    "Home {{message}} <a class=\"btn btn-default\" href=\"#/test\">Go to Test</a> <a href=\"#\" class=\"thumbnail\"><img src=\"/content/img/mountains-fog-green-beauty.jpg\"></a>"
   );
 
 
