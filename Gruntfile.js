@@ -238,7 +238,7 @@ module.exports = function(grunt){
   grunt.registerTask('js-compile-dev', [
     'copy:scriptLibraries',
     'copy:requirejsDev',
-    //'notify:requirejs'
+    'notify:requirejs'
   ]);
   
   grunt.registerTask('js-compile-prod', [
