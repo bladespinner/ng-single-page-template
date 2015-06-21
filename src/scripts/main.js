@@ -25,5 +25,7 @@ require.config({
         app: './app'
     },
 });
+
+
 requirejs(['app/main'], function(app){
 });
