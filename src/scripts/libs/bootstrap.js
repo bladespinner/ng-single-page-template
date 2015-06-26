@@ -1,4 +1,6 @@
-//loads the whole bootstrap
+/*
+ * Load only needed bootstrap scripts
+ */
 define(['bootstrap/affix',
         'bootstrap/alert',
         'bootstrap/button',

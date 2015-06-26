@@ -1,8 +1,9 @@
 'use strict';
 
 module.exports = function(grunt){
-  // Load grunt tasks automatically
+  // Load all grunt tasks automatically
   require('load-grunt-tasks')(grunt);
+  
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -12,21 +13,69 @@ module.exports = function(grunt){
        * Application base path.
        */
       app: '.',
+      /**
+       * Bower components path
+       */
       bowerComponents: '<%= settings.app %>/bower_components',
+      /**
+       * Content path
+       */
       contentPath : '<%= settings.app %>/content',
+      /**
+       * Compiled css path
+       */
       cssPath: '<%= settings.contentPath %>/css',
-      sourcePath : '<%= settings.app %>/src',
-      rawViewsPath : '<%= settings.sourcePath %>/views',
-      viewsPath : 'content/views', //hardcoded for angular templates, since this will expand to a template name
-      scriptPath: '<%= settings.sourcePath %>/scripts',
-      rawImagePath: '<%= settings.sourcePath %>/images',
-      imagePath: '<%= settings.contentPath %>/img',
-      sassPath: '<%= settings.sourcePath %>/sass',
+      /**
+       * Content Fonts path
+       */
       fontsPath: '<%= settings.contentPath %>/fonts',
-      scriptsLibs: '<%= settings.scriptPath %>/libs',
-      viewPath: '<%= settings.app %>/views',
-      bootstrapFonts: '<%= settings.bowerComponents %>/bootstrap-sass/assets/fonts',
+      /**
+       * content views path
+       */
+      viewsPath : 'content/views', //FIXME: hardcoded for angular templates, since this will expand to a template name
+      /**
+       * content images path
+       */
+      imagePath: '<%= settings.contentPath %>/img',
+      /**
+       * content views path
+       */
+      viewPath: '<%= settings.contentPath %>/views',
+      /**
+       * compiled scripts path
+       */
       contentScripts: '<%= settings.contentPath %>/js',
+      /**
+       * source location path
+       */
+      sourcePath : '<%= settings.app %>/src',
+      /**
+       * bootstrap bower component fonts location
+       */
+      bootstrapFonts: '<%= settings.bowerComponents %>/bootstrap-sass/assets/fonts',
+      /**
+       * source views path
+       */
+      rawViewsPath : '<%= settings.sourcePath %>/views',
+      /**
+       * source scripts path
+       */
+      scriptPath: '<%= settings.sourcePath %>/scripts',
+      /**
+       * source images path
+       */
+      rawImagePath: '<%= settings.sourcePath %>/images',
+      /**
+       * source sass path
+       */
+      sassPath: '<%= settings.sourcePath %>/sass',
+      /**
+       * source script libraries path
+       */
+      scriptsLibs: '<%= settings.scriptPath %>/libs',
+      /**
+       * livereload port
+       */
       livereload: 35729
     },
     

@@ -1,3 +1,7 @@
+/*
+ * Load and bootstrap angular modules
+ */
+
 define([
   'angular',
   'app/modules/application/main',

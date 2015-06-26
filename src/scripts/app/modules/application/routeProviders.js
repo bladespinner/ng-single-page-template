@@ -1,3 +1,6 @@
+/*
+ * Register routes
+ */
 define([],function() {
   return ['$routeProvider',
         function($routeProvider) {

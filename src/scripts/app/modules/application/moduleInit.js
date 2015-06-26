@@ -1,3 +1,7 @@
+/*
+ * Initialize the angular module, with its name and 
+ * angular module dependencies.
+ */
 define([
   'angular',
   'angular-route'

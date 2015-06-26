@@ -1,3 +1,6 @@
+/*
+ * Main application entry point
+ */
 require.config({
     shim: {
         'bootstrap/affix':      { deps: ['jquery'], exports: '$.fn.affix' }, 
