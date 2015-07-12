@@ -1,6 +1,7 @@
 /*
  * Main application entry point
  */
+/* @if NODE_ENV='test' **
 var allTestFiles = [];
 var TEST_REGEXP = /(spec|test)\.js$/i;
 
@@ -14,11 +15,14 @@ Object.keys(window.__karma__.files).forEach(function(file) {
     allTestFiles.push(normalizedTestModule);
   }
 });
+/* @endif */
  
 require.config({
+    /* @if NODE_ENV='test' **
     baseUrl: '/base/content/js',
     deps: allTestFiles,
     callback: window.__karma__.start,
+    /* @endif */
     shim: {
         'bootstrap/affix':      { deps: ['jquery'], exports: '$.fn.affix' }, 
         'bootstrap/alert':      { deps: ['jquery'], exports: '$.fn.alert' },
@@ -33,7 +37,9 @@ require.config({
         'bootstrap/tooltip':    { deps: ['jquery'], exports: '$.fn.tooltip' },
         'bootstrap/transition': { deps: ['jquery'], exports: '$.fn.transition' },
         'angular' : {exports: 'angular'},
+        /* @if NODE_ENV='test' **
         'angular-mocks' : { deps: ['angular'] },
+        /* @endif */
         'angular-route' : { deps: ['angular'] }
     },
     paths: {
@@ -42,7 +48,9 @@ require.config({
         'jquery': 'libs/jquery.min',
         'angular-route': 'libs/angular-route.min',
         'angular': 'libs/angular.min',
+        /* @if NODE_ENV='test' **
         'angular-mocks': 'libs/angular-mocks',
+        /* @endif */
         lib: 'libs',
         app: 'app'
     },

@@ -14,6 +14,10 @@ module.exports = function(grunt){
        */
       app: '.',
       /**
+       * Tests path
+       */
+      testsPath: '<%= settings.app %>/test',
+      /**
        * Bower components path
        */
       bowerComponents: '<%= settings.app %>/bower_components',
@@ -77,6 +81,34 @@ module.exports = function(grunt){
        * livereload port
        */
       livereload: 35729
+    },
+    
+    env: {
+      options : {
+        
+      },
+      dev : {
+        NODE_ENV : 'development',
+        TEST : 'true'
+      },
+      build : {
+        NODE_ENV : 'production',
+        TEST : 'false'
+      },
+      test : {
+        NODE_ENV : 'test',
+      }
+    },
+    
+    preprocess : {
+      requirejs : {
+        src : '<%= settings.scriptPath %>/main.template.js',
+        dest : '<%= settings.scriptPath %>/main.js'
+      },
+      angularMock : {
+        src : '<%= settings.scriptPath %>/app/modules/application/moduleInit.template.js',
+        dest : '<%= settings.scriptPath %>/app/modules/application/moduleInit.js'
+      }
     },
     
     requirejs: {
@@ -223,12 +255,18 @@ module.exports = function(grunt){
           {expand: true, cwd:"bower_components/requirejs", src: 'require.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
           {expand: true, cwd:"bower_components/jquery/dist", src: 'jquery.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
           {expand: true, cwd:"bower_components/angular", src: 'angular.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
-          {expand: true, cwd:"bower_components/angular-route", src: 'angular-route.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'}
+          {expand: true, cwd:"bower_components/angular-route", src: 'angular-route.min.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'},
+          {expand: true, cwd:"bower_components/angular-mocks", src: 'angular-mocks.js', dest: '<%= settings.scriptsLibs %>', filter:'isFile'}
         ]
       },
       requirejsDev: {
         files : [
-          {expand: true, cwd:"<%= settings.scriptPath %>/", src: '**', dest: '<%= settings.contentScripts %>'}
+          {expand: true, cwd:"<%= settings.scriptPath %>/", src: ['**','!**.template.js'], dest: '<%= settings.contentScripts %>'},
+        ]
+      },
+      testFiles : {
+        files : [
+          {expand: true, cwd:"<%= settings.testsPath %>/", src: ['**'], dest: '<%= settings.contentScripts %>/test'},
         ]
       }
     },
@@ -278,6 +316,25 @@ module.exports = function(grunt){
           livereload: '<%= settings.livereload %>'
         }
       }
+    },
+    jasmine: {
+      unit: {
+        src: 'content/js/**/*.js',
+        options: {
+          specs: 'test/unit/*test.js',
+          helpers: 'test/unit/*helper.js',
+          host: 'http://dev.ngtest.local/',
+          template: require('grunt-template-jasmine-requirejs'),
+          templateOptions: {
+            requireConfigFile: 'content/js/main.js'
+          }
+        }
+      }
+    },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
     }
   });
 
@@ -285,6 +342,10 @@ module.exports = function(grunt){
       this.async();
   });
   
+  grunt.registerTask('loadconst', 'Load constants', function() {
+    grunt.config('MY_CONST', process.env.MY_CONST);
+  });
+    
   grunt.registerTask('views-compile-dev', [
     'htmlmin:dist',
     'ngtemplates:app',
@@ -316,6 +377,9 @@ module.exports = function(grunt){
   ]);
   
   grunt.registerTask('build-prod', [
+    'env:prod',
+    'preprocess',
+    'loadconst',
     'clean:build',
     'css-compile',
     'views-compile-prod',
@@ -324,10 +388,25 @@ module.exports = function(grunt){
   ]);
   
   grunt.registerTask('build-dev', [
+    'env:dev',
+    'loadconst',
     'clean:build',
+    'preprocess',
     'css-compile',
     'views-compile-dev',
     'js-compile-dev',
+    'imagemin:images',
+  ]);
+  
+  grunt.registerTask('build-test', [
+    'env:test',
+    'loadconst',
+    'clean:build',
+    'preprocess',
+    'css-compile',
+    'views-compile-dev',
+    'js-compile-dev',
+    'copy:testFiles',
     'imagemin:images',
   ]);
 
